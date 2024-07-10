@@ -1,0 +1,39 @@
+# fly.toml app configuration file generated for protohackers-go on 2024-07-10T23:25:02+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'protohackers-go'
+primary_region = 'lhr'
+
+[build]
+    [build.args]
+    GO_VERSION = '1.22.3'
+
+[env]
+    PORT = '8080'
+
+[[services]]
+    http_checks = []
+    internal_port = 8080
+    protocol = "tcp"
+    processes = ['app']
+
+    [services.concurrency]
+        hard_limit = 25
+        soft_limit = 20
+
+    [[services.ports]]
+        port = 8080
+        handler = []
+
+    [[services.tcp_checks]]
+        interval = "15s"
+        timeout = "2s"
+        grace_period = "1s"
+        restart_limit = 6
+
+[[vm]]
+    memory = '1gb'
+    cpu_kind = 'shared'
+    cpus = 1
